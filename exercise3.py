@@ -1,7 +1,9 @@
 from exercise1 import Vector
 from exercise2 import Point2D
 
-
+def inin(a, b, c) -> bool:
+    return a >= b and a <= c
+    
 class Rectangle:
     def __init__(self, lower_left: Point2D, dx: float, dy: float) -> None:
         self._lower_left = lower_left
@@ -29,10 +31,19 @@ class Rectangle:
         # Task A: remove duplication by defining a function
         #         that checks if a value is within an interval
         #         and reuse that here.
-        ll_px = point.x - self._lower_left.x
-        ll_py = point.y - self._lower_left.y
-        return ll_px >= 0 and ll_px <= self._dx \
-            and ll_py >= 0 and ll_py <= self._dy
+        # Add tolerance to the function if needed
+        bx = self._lower_left.x
+        by = self._lower_left.y
+        cx = self._lower_left.x + self._dx
+        cy = self._lower_left.y + self._dy
+        #if(tolerance==float)
+        #bx = self._lower_left.x-tolerance
+        #by = self._lower_left.y-tolerance
+        #cx = self._lower_left.x + self._dx+tolerance
+        #cy = self._lower_left.y + self._dy+tolerance
+        return inin(point.x, bx, cx) \
+           and inin(point.y, by, cy)
+
 
     def _is_idx_on_upper_edge(self, i: int) -> bool:
         return i in [2, 3]
@@ -45,7 +56,7 @@ def test_rectangle_contains_exact() -> None:
     rectangle = Rectangle(lower_left=Point2D(1.0, 2.0), dx=2.5, dy=1.5)
     for i in range(4):
         assert rectangle.contains(rectangle.corner(i))
-
+        #Add tolerance=0
 
 def test_rectangle_contains_tolerance() -> None:
     rectangle = Rectangle(lower_left=Point2D(1.0, 2.0), dx=2.5, dy=1.5)
