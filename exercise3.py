@@ -27,7 +27,7 @@ class Rectangle:
     def upper_right(self) -> Point2D:
         return self.corner(3)
 
-    def contains(self, point: Point2D) -> bool:
+    def contains(self, point: Point2D, tolerance) -> bool:
         # Task A: remove duplication by defining a function
         #         that checks if a value is within an interval
         #         and reuse that here.
@@ -53,10 +53,9 @@ class Rectangle:
 
 
 def test_rectangle_contains_exact() -> None:
-    rectangle = Rectangle(lower_left=Point2D(1.0, 2.0), dx=2.5, dy=1.5)
+    rectangle = Rectangle(lower_left=Point2D(1.0, 2.3), dx=2.5, dy=1.5)
     for i in range(4):
-        assert rectangle.contains(rectangle.corner(i))
-        #Add tolerance=0
+        assert rectangle.contains(rectangle.corner(i),tolerance=0)
 
 def test_rectangle_contains_tolerance() -> None:
     rectangle = Rectangle(lower_left=Point2D(1.0, 2.0), dx=2.5, dy=1.5)
@@ -65,10 +64,10 @@ def test_rectangle_contains_tolerance() -> None:
     upper_left = rectangle.corner(2)
     upper_right = rectangle.corner(3)
 
-    assert rectangle.contains(lower_left)
-    assert rectangle.contains(upper_left)
-    assert rectangle.contains(lower_right)
-    assert rectangle.contains(upper_right)
+    assert rectangle.contains(lower_left,tolerance=0)
+    assert rectangle.contains(upper_left,tolerance=0)
+    assert rectangle.contains(lower_right,tolerance=0)
+    assert rectangle.contains(upper_right,tolerance=0)
 
     eps = 1e-10
     lower_left -= Vector([eps, eps])
@@ -76,10 +75,10 @@ def test_rectangle_contains_tolerance() -> None:
     upper_left += Vector([-eps, eps])
     upper_right += Vector([eps, eps])
 
-    assert not rectangle.contains(lower_left)
-    assert not rectangle.contains(upper_left)
-    assert not rectangle.contains(lower_right)
-    assert not rectangle.contains(upper_right)
+    assert not rectangle.contains(lower_left,tolerance=0)
+    assert not rectangle.contains(upper_left,tolerance=0)
+    assert not rectangle.contains(lower_right,tolerance=0)
+    assert not rectangle.contains(upper_right,tolerance=0)
 
     # Task B: make the tests below pass by adding optional tolerance argument to `contains`
     assert not rectangle.contains(lower_left, tolerance=eps/2.0)
