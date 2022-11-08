@@ -1,6 +1,8 @@
 from exercise1 import Vector
 from exercise2 import Point2D
 
+def inin(a, b, c) -> bool:
+    return a >= b and a <= c
 
 class Rectangle:
     def __init__(self, lower_left: Point2D, dx: float, dy: float) -> None:
